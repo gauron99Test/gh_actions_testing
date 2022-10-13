@@ -8,19 +8,15 @@ jobs:
       new_files: ${{ steps.setup-id.outputs.new_files }}
       old_files: ${{ steps.setup-id.outputs.old_files }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Checkout Pull Request
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         id: checkout
         run: |
-          echo "gh.event.number: ${{ github.event.number }}"
           gh pr checkout ${{ github.event.number }}
-
-          pr_url=${{ github.event.pull_request.url }}
-          echo "test url: $pr_url"
-          pr_num=${pr_url##*/}
-          echo "test num: $pr_num"
-          # gh pr checkout $pr_num
 
       - name: Setup dirs for diff
         id: setup-id
