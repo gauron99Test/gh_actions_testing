@@ -29,5 +29,5 @@ jobs:
       - name: print me info
         id: printer
         run: |
-          ls
+          ls -R
           pwd
