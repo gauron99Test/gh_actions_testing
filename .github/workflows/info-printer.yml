@@ -128,7 +128,7 @@ jobs:
           echo "::set-output name=body::$diff_text"
           echo "::set-output name=old_file::$old_file"
 
-      - name: Create comment
+      - name: Update comment
         if: ${{ steps.diff-id.outputs.body != '' && startsWith(github.event.comment.body,'Diff `${{matrix.new}}`') }}
         uses: peter-evans/create-or-update-comment@v2
         with:
@@ -138,3 +138,15 @@ jobs:
             Diff `${{matrix.new}}` & `${{steps.diff-id.outputs.old_file}}`
             ${{steps.diff-id.outputs.body}}
           reactions: rocket
+
+      - name: Create comment
+        if: ${{ steps.diff-id.outputs.body != '' }}
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          comment-id: ${{ github.event.comment.id }}
+          # max character length is 65536 (2022/10/06)
+          body: |
+            Diff `${{matrix.new}}` & `${{steps.diff-id.outputs.old_file}}`
+            ${{steps.diff-id.outputs.body}}
+          reactions: rocket
+
