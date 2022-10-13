@@ -1,5 +1,13 @@
 name: total super cool stuff
-on: pull_request_target
+on:
+  pull_request_target:
+    types:
+      - synchronize
+      - opened
+      - reopened
+      - edited
+      - assigned
+      - unassigned
 
 jobs:
   setup:
