@@ -1,0 +1,33 @@
+name: total super cool stuff
+on:
+  pull_request_target:
+    types:
+      - synchronize
+      - opened
+      - reopened
+      - edited
+      - assigned
+      - unassigned
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      new_files: ${{ steps.setup-id.outputs.new_files }}
+      old_files: ${{ steps.setup-id.outputs.old_files }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Checkout Pull Request
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        id: checkout
+        run: |
+          gh pr checkout ${{ github.event.number }}
+
+      - name: print me info
+        id: printer
+        run: |
+          ls
+          pwd
