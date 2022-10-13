@@ -1,4 +1,4 @@
-name: total super cool stuff
+name: info-printer
 on:
   pull_request_target:
     types:
